@@ -1,0 +1,255 @@
+<template>
+  <div class="all">
+    <div id="app"></div>
+    <div class="content">
+
+      <div
+        class="list"
+        v-for="item in list"
+        :key="item.id"
+      >
+        <!-- <router-link to="/newsdetail"> -->
+        <div class="left">
+          <p
+            class="p1"
+            @click="xiang(item.id)"
+          >{{item.title}}</p>
+          <p class="p2">{{item.introduce}}</p>
+          <p class="p3">
+            <span class="sp1">阅读：{{item.readCnt}}</span>
+            <span class="sp1">好看：{{item.goodCnt}}</span>
+            <span class="sp1">时间：{{item.createTime}}</span>
+          </p>
+        </div>
+        <div class="right">
+          <img
+            :src="item.pic"
+            alt
+            class="img1"
+          >
+        </div>
+        <!-- </router-link> -->
+      </div>
+
+    </div>
+    <div class="yema">
+      <v-pagination
+        :total="total"
+        :current-page="current"
+        @pagechange="pagechange"
+      ></v-pagination>
+      <!-- <div id="demo7"></div> -->
+    </div>
+    <Footer></Footer>
+  </div>
+</template>
+<script>
+import Footer from "../../components/commons/footer/footer.vue";
+//引入分页组件
+import pagination from "@/components/commons/pagination/pagination.vue";
+export default {
+  data() {
+    return {
+      total: 0, // 记录总条数
+      display: 10, // 每页显示条数
+      current: 1, // 当前的页数
+      currentPage: 1, //点击的页码
+      page: 1,
+      pageSize: 10,
+      totalCount: 0,
+      id: "", //点击的每一项的id
+      list: [
+        // { id: "1", pic: require("../../assets/images/首页-1.jpg") },
+        // { id: "2", pic: require("../../assets/images/首页-1.jpg") },
+        // { id: "3", pic: require("../../assets/images/首页-1.jpg") }
+      ]
+    };
+  },
+  components: {
+    Footer,
+    //引入分页组件
+    "v-pagination": pagination
+  },
+  created() {
+    this.pagination();
+  },
+  //   mounted() {
+  //     this.pagination();
+  //     window.layui.use(["laypage", "layer"], function() {
+  //       var laypage = layui.laypage,
+  //         layer = layui.layer;
+  //       //完整功能//调用分页
+  //       laypage.render({
+  //         elem: "demo7",
+  //         method: "post",
+  //         curr: this.page, //让起始页等于我传过来的page1,也就是点击的页码
+  //         count: 100, //数据总数
+  //         // count: data.length,
+  //         layout: ["page", "prev", "next"],
+  //         theme: "#FFB800", //点击按钮的颜色
+  //         jump: function(obj, first) {
+  //           //模拟渲染
+  //           // console.log(11111111);
+  //           console.log(obj);
+  //           this.page = obj.curr;
+  //           console.log(this.page);
+  //           //   pagination(obj.curr, obj.limit); //第二个参数不能用变量pageSize，因为当切换每页大小的时候会出问题
+  //           //   document.getElementById("biuuu_city_list").innerHTML = (function() {
+  //           //     var arr = [],
+  //           //       thisData = data
+  //           //         .concat()
+  //           //         .splice(obj.curr * obj.limit - obj.limit, obj.limit);
+  //           //     layui.each(thisData, function(index, item) {
+  //           //       arr.push("<li>" + item + "</li>");
+  //           //     });
+  //           //     return arr.join("");
+  //           //   })();
+  //         }
+  //       });
+  //     });
+  //   },
+  methods: {
+    pagechange: function(currentPage) {
+      console.log(2222222);
+      console.log(currentPage);
+      this.currentPage = currentPage;
+      // ajax请求, 向后台发送 currentPage, 来获取对应的数据
+      this.pagination();
+    },
+    xiang(row) {
+      this.id = row;
+      //把页面要传的参数存到sessionStorage里面
+      sessionStorage.setItem("id", this.id);
+      //   console.log(row); //此时就能拿到整行的信息
+      this.$router.push({
+        name: "newsdetail",
+        params: {
+          id: this.id
+        }
+      });
+    },
+    pagination: function() {
+      console.log(this.page);
+      //查询条件
+      //   var param = {
+      //     page: page,
+      //     pageSize: pageSize
+      //     //其它查询条件可在下面添加
+      //   };
+      this.$api.post(
+        "api_findArticleList.do",
+        {
+          page: this.page,
+          pageSize: this.pageSize
+        },
+        response => {
+          if (response.status >= 200 && response.status < 300) {
+            console.log(response.data); //请求成功，response为成功信息参数
+            this.list = response.data.result.list;
+            this.total = response.data.result.total;
+          } else {
+            console.log(response.message); //请求失败，response为失败信息
+          }
+        }
+      );
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.all {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  //   overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  min-width: 1200px;
+  height: 34.5vw;
+  min-height: 416px;
+  background: url("../../assets/images/club/lpdjlb_01.jpg") no-repeat;
+  background-size: 100% 100%;
+  margin: 0px;
+  padding: 1px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+.content {
+  width: 1176px;
+  margin: 0 auto;
+  .list {
+    width: 1176px;
+    height: 346px;
+    margin: 50px 0;
+    border-bottom: 1px solid #999999;
+
+    .left {
+      float: left;
+      width: 750px;
+      height: 275px;
+      position: relative;
+      .p1 {
+        font-size: 30px;
+        font-family: "微软雅黑";
+        font-weight: bold;
+        color: black;
+        max-height: 80px;
+        // overflow: hidden;
+
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        cursor: pointer;
+      }
+      .p1:hover {
+        color: #999999;
+      }
+      .p2 {
+        margin-top: 10px;
+        font-size: 16px;
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        color: #000000;
+        line-height: 30px;
+        height: 115px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+      }
+      .p3 {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        span {
+          display: inline-block;
+          min-width: 80px;
+          height: 20px;
+        }
+      }
+    }
+    .right {
+      float: right;
+      width: 344px;
+      height: 275px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+.yema {
+  height: 65px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+</style>

@@ -1,0 +1,87 @@
+<template>
+  <div>
+    <!--tab导航栏-->
+    <div class="top-header">
+      <div class="left-logo">
+        <img src="../../../assets/images/index/logo.png"/>
+      </div>
+      <h3 class="change-text">ENG.中文</h3>
+      <ul>
+        <li v-for="(item,index) in headList" :key="index">
+          <a :class="selectNum == index ? 'active' : ''" @mouseenter="selectTab(index, item)" @mouseleave="leave">{{item.text}}</a>
+          <div class="mask-tab" v-if="item.showMask&&showEvery">
+
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+  import {removeToken} from "@/utils/cookie";
+  import {mapGetters} from "vuex";
+
+  export default {
+    data() {
+      return {
+        headList: [ //tab导航
+          {text: '首页', showMask:false, path: '/home'},
+          {text: '关于我们', showMask:false,  path: '/homePage'},
+          {text: '产品信息', showMask:false,  path: '/appDown'},
+          {text: '服务支持', showMask:false,  path: '/contact'},
+          {text: '官方商城',  showMask:false, path: '/openArea'},
+          {text: '啦普哆俱乐部', showMask:false,  path: '/openArea'},
+          {text: '联系我们', showMask:false,  path: '/contactUs'},
+
+        ],
+        selectNum: 0,//选中的tab下标
+        showEvery: false,//控制遮罩层显隐的开关
+
+      }
+    },
+    mounted() {
+
+    },
+    watch: {
+      $route: {
+        handler(val) {
+          let path = this.$route.path;
+          //   // 检索当前路径
+            this.checkRouterLocal(path);
+        },
+        deep: true,
+        immediate: true
+      }
+    },
+    methods: {
+      leave(){
+
+      },
+      selectTab(index, item) {
+        this.selectNum = index;
+        this.$router.push({
+          path:item.path
+
+
+        })
+        item.showMask = true
+
+      },
+      checkRouterLocal(path) { //监听路由 根据路由下标高亮
+        // 查找当前路由下标高亮
+        this.selectNum = this.headList.findIndex(item => item.path === path);
+      },
+      toPart(item, index) {
+        this.$router.push({name: this.imgList[index].name, query: {type: item.id}})
+      }
+    },
+    computed: {
+
+    }
+  };
+</script>
+
+<style scoped lang="sass">
+  @import "./header.scss"
+</style>

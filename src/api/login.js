@@ -1,0 +1,12 @@
+// import request from '../utils/request'
+
+// // const baseUrl = 'main/magic'
+
+// export function loginFn(data) {
+//   return request({
+//     url: 'campus/back_api_login.do',
+//     method: 'post',
+//     data: data
+
+//   })
+// }

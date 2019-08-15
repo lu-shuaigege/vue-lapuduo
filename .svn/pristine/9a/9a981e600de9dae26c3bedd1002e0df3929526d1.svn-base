@@ -1,0 +1,155 @@
+<template>
+  <div>
+    <div class="recruitment-part">
+      <div class="content">
+        <div class="select-two">
+            <el-select class="select" v-model="value" placeholder="部门">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+            <el-select class="select" v-model="place" placeholder="地点">
+              <el-option
+                v-for="item in positions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+        </div>
+        <div class="table-list">
+          <el-table
+            :data="tableData"
+            stripe
+            @click.native.prevent="toDetails"
+            style="width: 100%">
+            <el-table-column
+              prop="position"
+              label="职位名称"
+            >
+            </el-table-column>
+            <el-table-column
+              prop="name"
+              label="招聘部门">
+            </el-table-column>
+            <el-table-column
+              prop="number"
+              label="人数">
+            </el-table-column>
+            <el-table-column
+              prop="place"
+              label="位置">
+            </el-table-column>
+          </el-table>
+        </div>
+
+      </div>
+
+    </div>
+    <Footer></Footer>
+  </div>
+</template>
+
+<script>
+  import Footer from "@/components/commons/footer/footer.vue";
+
+  export default {
+    data(){
+      return{
+        options: [{
+          value: '选项1',
+          label: '技术'
+        }, {
+          value: '选项2',
+          label: '人事'
+        }, {
+          value: '选项3',
+          label: '科研'
+        }],
+        value: '',
+        place:'',
+        positions: [{
+          value: '选项1',
+          label: '常州'
+        }, {
+          value: '选项2',
+          label: '苏州'
+        }, {
+          value: '选项3',
+          label: '无锡'
+        }],
+        tableData: [{
+          position: '嵌入式工程师',
+          name: '新媒体部',
+          number: '2',
+          place:'上海杨浦区'
+        }, {
+          position: '硬件工程师',
+          name: '市场部',
+          number: '2',
+          place:'上海杨浦区'
+        }, {
+          position: '财务专员',
+          name: '财务部',
+          number: '2',
+          place:'上海杨浦区'
+
+        }]
+      }
+    },
+    methods:{
+      toDetails(){ //跳转哪一行的就传哪一行的参数过去
+        this.$router.push({
+          path:'/jobDetails'
+        })
+      }
+    },
+    components: {
+      Footer
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+  .top-header{
+    height: 100px;
+    width: 100%;
+    background: #333333;
+  }
+
+  .recruitment-part{
+    background-image: url("../../assets/images/recruit/人才招聘_01.jpg");
+    width: 100%;
+    height:700px;
+    min-height:700px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    .content{
+      width:1000px;
+      margin:0 auto;
+      .select-two{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-top: 200px;
+        .select{
+          width:400px;
+          height: 60px;
+        }
+      }
+      .table-list{
+        margin-top: 30px;
+    }
+
+    }
+  }
+
+
+
+</style>
+
+

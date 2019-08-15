@@ -1,0 +1,43 @@
+<template>
+  <div>
+    <!--<el-carousel height="440px">-->
+      <!--<el-carousel-item class="el-carousel__item" v-for="item in imgList" :key="item.id">-->
+        <!--<img class="carousel-image" :src="item.pic"/>-->
+      <!--</el-carousel-item>-->
+    <!--</el-carousel>-->
+    <!--下面的主要内容-->
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        imgList: [
+
+        ]
+      }
+    },
+
+    components: {
+
+    }
+  };
+</script>
+
+<style lang="scss" scoped>
+  .el-carousel__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .carousel-image {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+  }
+
+</style>
+

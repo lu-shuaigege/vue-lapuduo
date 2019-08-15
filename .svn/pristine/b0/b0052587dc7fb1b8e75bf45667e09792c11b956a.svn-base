@@ -1,0 +1,362 @@
+<template>
+  <div class="all">
+    <div class="xiang">
+      <aside class="left">
+        <div class="title">
+          <p>产品分类</p>
+        </div>
+        <ul class="leftul">
+          <li
+            ref="category1"
+            class="leftli  category1"
+            @click="bbx(1)"
+          >宝宝箱</li>
+          <li
+            ref="category2"
+            class="leftli"
+            @click="xxwy(2)"
+          >悉心喂养</li>
+          <li
+            ref="category3"
+            class="leftli"
+            @click="txhl(3)"
+          >贴心护理</li>
+          <li
+            ref="category4"
+            class="leftli"
+            @click="nxfs(4)"
+          >暖心服饰</li>
+        </ul>
+      </aside>
+      <keep-alive>
+        <section class="right">
+          <div class="title">
+            <p>全部产品</p>
+          </div>
+          <ul class="rightul">
+
+            <li
+              class="rightulli"
+              v-for="(item,index) in content"
+              :key="index"
+            >
+              <a
+                :href="item.url"
+                target="_blank"
+              >
+                <img
+                  :src="item.pic"
+                  alt=""
+                  class="rightulliimg"
+                >
+                <p class="rightullip">
+                  {{item.name}}
+                </p>
+              </a>
+
+            </li>
+
+          </ul>
+          <div class="yema">
+            <v-pagination
+              :total="total"
+              :current-page="current"
+              @pagechange="pagechange"
+            ></v-pagination>
+            <!-- <div id="demo7"></div> -->
+          </div>
+        </section>
+      </keep-alive>
+
+    </div>
+    <Footer></Footer>
+  </div>
+</template>
+<script>
+import Footer from "../../components/commons/footer/footer.vue";
+import {
+  goAnchor,
+  GetQueryString
+} from "../../components/commons/header/anchor.js";
+//引入分页组件
+import pagination from "@/components/commons/pagination/pagination.vue";
+export default {
+  data() {
+    return {
+      total: 0, // 记录总条数
+      display: 10, // 每页显示条数
+      current: 1, // 当前的页数
+      category: 1, //一级分类
+      page: 1,
+      content: []
+    };
+  },
+  components: {
+    Footer,
+    //引入分页组件
+    "v-pagination": pagination
+  },
+  created() {
+    // this.category = this.$route.params.category;
+
+    //从sessionStorage把页面要用的参数取出来
+    this.category = sessionStorage.getItem("category");
+
+    console.log(this.category);
+
+    //判断有没有传过来一级分类的数据
+    if (this.category != undefined) {
+      console.log(this.category);
+      this.pagination();
+    } else if (this.category == undefined) {
+      console.log(this.category);
+      this.paginationa();
+    }
+  },
+  methods: {
+    hover: function() {
+      console.log(this.category);
+      if (this.category == 1) {
+        this.$refs.category1.style.color = "#ffd050";
+        this.$refs.category2.style.color = "#000000";
+        this.$refs.category3.style.color = "#000000";
+        this.$refs.category4.style.color = "#000000";
+      }
+      if (this.category == 2) {
+        this.$refs.category1.style.color = "#000000";
+        this.$refs.category2.style.color = "#ffd050";
+        this.$refs.category3.style.color = "#000000";
+        this.$refs.category4.style.color = "#000000";
+      }
+      if (this.category == 3) {
+        this.$refs.category1.style.color = "#000000";
+        this.$refs.category2.style.color = "#000000";
+        this.$refs.category3.style.color = "#ffd050";
+        this.$refs.category4.style.color = "#000000";
+      }
+      if (this.category == 4) {
+        this.$refs.category1.style.color = "#000000";
+        this.$refs.category2.style.color = "#000000";
+        this.$refs.category3.style.color = "#000000";
+        this.$refs.category4.style.color = "#ffd050";
+      }
+    },
+    //分页组件向后台发送请求
+    goAnchor,
+    GetQueryString,
+    pagechange: function(currentPage) {
+      console.log(2222222);
+      console.log(currentPage);
+      this.page = currentPage;
+      // ajax请求, 向后台发送 currentPage, 来获取对应的数据
+      this.pagination();
+    },
+    //点击一级分类向后台获取不同的数据
+    bbx: function(x) {
+      this.category = x;
+      //把页面要传的参数存到sessionStorage里面
+      sessionStorage.setItem("category", this.category);
+      this.pagination();
+      this.hover();
+    },
+    xxwy: function(x) {
+      this.category = x;
+      //把页面要传的参数存到sessionStorage里面
+      sessionStorage.setItem("category", this.category);
+      this.pagination();
+      this.hover();
+    },
+    txhl: function(x) {
+      this.category = x;
+      //把页面要传的参数存到sessionStorage里面
+      sessionStorage.setItem("category", this.category);
+      this.pagination();
+      this.hover();
+    },
+    nxfs: function(x) {
+      this.category = x;
+      //把页面要传的参数存到sessionStorage里面
+      sessionStorage.setItem("category", this.category);
+      this.pagination();
+      this.hover();
+    },
+    //axios请求
+    pagination: function() {
+      //查询条件
+      //   var param = {
+      //     page: page,
+      //     pageSize: pageSize
+      //     //其它查询条件可在下面添加
+      //   };
+      this.$api.post(
+        "api_findGoodsList.do",
+        {
+          category: this.category,
+          page: this.page,
+          pageSize: 10
+        },
+        response => {
+          if (response.status >= 200 && response.status < 300) {
+            console.log(response.data); //请求成功，response为成功信息参数
+            this.content = response.data.result.list;
+            this.total = response.data.result.total;
+          } else {
+            console.log(response.message); //请求失败，response为失败信息
+          }
+        }
+      );
+    },
+    paginationa: function() {
+      //查询条件
+      //   var param = {
+      //     page: page,
+      //     pageSize: pageSize
+      //     //其它查询条件可在下面添加
+      //   };
+      this.$api.post(
+        "api_findGoodsList.do",
+        {
+          category: 1,
+          page: this.page,
+          pageSize: 10
+        },
+        response => {
+          if (response.status >= 200 && response.status < 300) {
+            console.log(response.data); //请求成功，response为成功信息参数
+            this.content = response.data.result.list;
+          } else {
+            console.log(response.message); //请求失败，response为失败信息
+          }
+        }
+      );
+    }
+  },
+  mounted() {
+    this.hover();
+    // let maodian = this.GetQueryString("anchor"); //进入页面，如果带有锚点参数，则跳转至锚点地方，参数值就是id名
+    // if (maodian) {
+    //   console.log(maodian);
+    //   this.goAnchor("#" + maodian);
+    // }
+    // window.layui.use(["laypage", "layer"], function() {
+    //   var laypage = layui.laypage,
+    //     layer = layui.layer;
+    //   //完整功能//调用分页
+    //   laypage.render({
+    //     elem: "demo7",
+    //     count: 100,
+    //     // count: data.length,
+    //     layout: ["page", "prev", "next"],
+    //     theme: "#FFB800",
+    //     jump: function(obj) {
+    //       //模拟渲染
+    //       console.log(obj);
+    //       //   document.getElementById("biuuu_city_list").innerHTML = (function() {
+    //       //     var arr = [],
+    //       //       thisData = data
+    //       //         .concat()
+    //       //         .splice(obj.curr * obj.limit - obj.limit, obj.limit);
+    //       //     layui.each(thisData, function(index, item) {
+    //       //       arr.push("<li>" + item + "</li>");
+    //       //     });
+    //       //     return arr.join("");
+    //       //   })();
+    //     }
+    //   });
+    // });
+  }
+};
+</script>
+<style lang="scss" scoped>
+.all {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  //   overflow: hidden;
+}
+
+.xiang {
+  width: 1200px;
+  min-height: 600px;
+  margin: 120px auto 0 auto;
+  overflow: hidden;
+  .left {
+    width: 300px;
+    display: float;
+    float: left;
+    .title {
+      width: 100%;
+      height: 40px;
+      background: #262626;
+      p {
+        width: 100px;
+        height: 100%;
+        background: #d0b04b;
+        line-height: 40px;
+        text-align: center;
+        color: #ffffff;
+        font-size: 16px;
+      }
+    }
+    .leftul {
+      width: 100%;
+      margin-top: 20px;
+
+      li {
+        width: 100%;
+        height: 50px;
+        padding: 0 15px;
+        box-sizing: border-box;
+        line-height: 50px;
+        font-size: 16px;
+        border-bottom: #cccccc dashed 1px;
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        // font-weight: bold;
+        color: #000000;
+        cursor: pointer;
+      }
+    }
+  }
+  .right {
+    width: 860px;
+    display: float;
+    float: right;
+    .title {
+      width: 100%;
+      height: 40px;
+      background: #262626;
+      p {
+        width: 100px;
+        height: 100%;
+        background: #d0b04b;
+        line-height: 40px;
+        text-align: center;
+        color: #ffffff;
+        font-size: 16px;
+      }
+    }
+    .rightul {
+      width: 880px;
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      .rightulli {
+        width: 280px;
+        height: 350px;
+        margin-right: 10px;
+        .rightulliimg {
+          width: 100%;
+          height: 200px;
+        }
+        .rightullip {
+          margin-top: 30px;
+          font-size: 16px;
+          font-family: "微软雅黑";
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+</style>

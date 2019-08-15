@@ -1,0 +1,147 @@
+<template>
+  <div>
+    <div class="recruitment-part">
+      <div class="content">
+        <div class="details">
+          <div class="line"></div>
+          <h3 class="name">嵌入式工程师</h3>
+          <div class="position">
+            <img src="../../assets/images/recruit/point.png">
+            <span>上海杨浦区</span>
+          </div>
+          <div class="request-info">
+            <h3 class="title">部门：</h3>
+            <p class="content-word">新一代交通控制网</p>
+            <h3 class="title">说明：</h3>
+            <p class="content-word">学历要求：本科</p>
+            <h3 class="title">专业：</h3>
+            <p class="content-word">汽车工程、电子信息工程、自动化、通信工程、计算机软件和科学、信息工程、网络工程、物联网工程、空间信息和数字技术、电子与计算机工程、视觉传达与设计等专业</p>
+            <h3 class="title">福利待遇：</h3>
+            <p class="content-word">①缴纳五险一金及意外险；</p>
+            <p class="content-word">②双休；</p>
+            <p class="content-word">③通讯补贴；</p>
+            <p class="content-word">④交通补贴；</p>
+            <p class="content-word">⑤节日礼金：中秋节、端午节、春节</p>
+          </div>
+          <div
+            class="confirm"
+            @click="shen"
+          >
+            申 请
+          </div>
+          <div
+            class="tan"
+            v-show="isShow"
+          >
+            请将简历提交至企业hr邮箱123@163.com
+          </div>
+        </div>
+      </div>
+    </div>
+    <Footer></Footer>
+  </div>
+</template>
+
+<script>
+import Footer from "@/components/commons/footer/footer.vue";
+
+export default {
+  data() {
+    return {
+      isShow: false,
+      id: this.$route.query.id
+    };
+  },
+  created() {
+    console.log(this.id);
+  },
+  methods: {
+    shen: function() {
+      this.isShow = true;
+    }
+  },
+  components: {
+    Footer
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.top-header {
+  height: 100px;
+  width: 100%;
+}
+
+.recruitment-part {
+  background-image: url("../../assets/images/recruit/人才招聘_01.jpg");
+  width: 100%;
+  height: 1180px;
+  min-height: 1180px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .content {
+    width: 100%;
+    position: absolute;
+    top: 30%;
+    left: 0;
+    height: 900px;
+    background: #ffffff;
+    .details {
+      width: 1000px;
+      margin: 0 auto;
+      .line {
+        width: 730px;
+        height: 5px;
+        background: #c9ab48;
+        margin: 30px 0 16px 0;
+      }
+      .name {
+        font: 28px/50px "";
+        font-weight: 500;
+      }
+      .position {
+        width: 452px;
+        height: 58px;
+        border-bottom: 1px solid #d7d7d7;
+      }
+      .request-info {
+        width: 730px;
+        .title {
+          color: #c9ab48;
+          margin-top: 30px;
+        }
+        .content-word {
+          font: 18px/36px "";
+        }
+      }
+      .confirm {
+        width: 130px;
+        height: 42px;
+        background: #c9ab48;
+        font: 16px/42px "";
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        margin-top: 50px;
+        text-align: center;
+      }
+    }
+  }
+}
+.tan {
+  width: 300px;
+  height: 100px;
+  padding: 20px;
+  font-size: 18px;
+  border-radius: 10px;
+  background: #000000;
+  color: #ffffff;
+  position: fixed;
+  z-index: 100;
+  left: 45%;
+  top: 48%;
+}
+</style>
+
+

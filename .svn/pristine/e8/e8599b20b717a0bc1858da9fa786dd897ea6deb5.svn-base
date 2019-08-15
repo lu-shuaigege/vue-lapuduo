@@ -1,0 +1,226 @@
+<template>
+  <div>
+    <!--tab导航栏-->
+    <div class="top-header">
+      <div class="left-logo">
+        <img src="../../../assets/images/index/logo.png">
+      </div>
+      <!-- <h3 v-if="wordColcor==true" class="change-white">ENG.中文</h3>
+      <h3 v-if="wordColcor==false" class="change-black">ENG.中文</h3>-->
+      <el-menu
+        :default-active="activeIndex"
+        id="navright"
+        class="el-menu-demo head-title"
+        mode="horizontal"
+        @select="handleSelect"
+        text-color="#ffffff"
+        active-text-color="#000000"
+        height="27"
+      >
+        <el-menu-item index="1">
+          <router-link to="/home" class="navtitle">首页</router-link>
+        </el-menu-item>
+        <el-submenu index="2" class="navtitle" text-color="#ffffff">
+          <template slot="title" class="navtitle">关于我们</template>
+          <el-menu-item index="2-1">
+            <!-- to后面路径的#pinpaijianjie是要跳转的锚点的名字 -->
+            <router-link to="/about#pinpaijianjie" href="#pinpaijianjie">品牌简介</router-link>
+          </el-menu-item>
+          <el-menu-item index="2-2">
+            <router-link to="/about#pinpailishi" href="#pinpailishi">品牌历史</router-link>
+          </el-menu-item>
+          <el-menu-item index="2-3">
+            <router-link to="/about#quanqiuyanfa" href="#quanqiuyanfa">全球研发</router-link>
+          </el-menu-item>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title" class="navtitle">产品信息</template>
+          <el-menu-item index="3-1">
+            <router-link to="/product#baobaoxiang" href="#baobaoxiang">宝宝箱</router-link>
+          </el-menu-item>
+          <el-menu-item index="3-2">
+            <router-link to="/product#xixinweiyang" href="#xixinweiyang">悉心喂养</router-link>
+          </el-menu-item>
+          <el-menu-item index="3-3">
+            <router-link to="/product#tiexinhuli" href="#tiexinhuli">贴心护理</router-link>
+          </el-menu-item>
+          <el-menu-item index="3-4">
+            <router-link to="/product#nuanxinfushi" href="#nuanxinfushi">暖心服饰</router-link>
+          </el-menu-item>
+        </el-submenu>
+        <el-submenu index="4">
+          <template slot="title" class="navtitle">服务支持</template>
+          <el-menu-item index="4-1">
+            <router-link to="/service#shangpinfuwu" href="#shangpinfuwu">商品服务</router-link>
+          </el-menu-item>
+          <el-menu-item index="4-2">
+            <router-link to="/service#kehuzhichi" href="#kehuzhichi">客户支持</router-link>
+          </el-menu-item>
+          <el-menu-item index="4-3">
+            <router-link to="/service#qudaohezuo" href="#qudaohezuo">渠道合作</router-link>
+          </el-menu-item>
+        </el-submenu>
+        <el-submenu index="5" class="navtitle">
+          <template slot="title">官方商城</template>
+          <el-menu-item index="5-1">
+            <router-link to>天猫旗舰店</router-link>
+          </el-menu-item>
+          <el-menu-item index="5-2">
+            <router-link to>京东旗舰店</router-link>
+          </el-menu-item>
+        </el-submenu>
+        <el-menu-item index="6">
+          <router-link to="/club" class="navtitle">啦普哆俱乐部</router-link>
+        </el-menu-item>
+        <el-menu-item index="7">
+          <router-link to="/contactUs" class="navtitle">联系我们</router-link>
+        </el-menu-item>
+        <el-menu-item index="8" class="navtitle">ENG.中文</el-menu-item>
+      </el-menu>
+    </div>
+  </div>
+</template>
+
+<script>
+import { removeToken } from "@/utils/cookie";
+import { mapGetters } from "vuex";
+
+export default {
+  data() {
+    return {
+      selectNum: 0, //选中的tab下标
+      showBrand: false, //控制遮罩层显隐的开关--关于我们
+      showProduct: false, //控制遮罩层显隐的开关--产品信息
+      showService: false, //控制遮罩层显隐的开关--服务支持
+      showShop: false, //控制遮罩层显隐的开关--官方商城
+      wordColcor: true //控制字体在页面显示黑白的
+    };
+  },
+  mounted() {},
+  watch: {
+    $route: {
+      handler(val) {
+        //根据路由判断 哪些网页头部字体是黑色或者白色
+        var linkName = [
+          "privacyTerms",
+          "socialTerms",
+          "websiteTerms",
+          "contactUs"
+        ];
+        if (linkName.indexOf(val.name) > -1) {
+          this.wordColcor = false;
+        } else {
+          this.wordColcor = true;
+        }
+        this.checkRouterLocal(val.path);
+        this.showBrand = false;
+        this.showProduct = false;
+        this.showService = false;
+        this.showShop = false;
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    // tiao(e) {
+    //   document.querySelector("#pinpaijianjie").scrollIntoView(true);
+    // },
+    go() {
+      var element = document.getElementsByid("pinpaijianjie");
+      element.scrollIntoView();
+    },
+
+    selectTab(index, item) {
+      this.selectNum = index;
+      if (index == 1) {
+        this.showBrand = !this.showBrand;
+        this.showProduct = false;
+        this.showService = false;
+        this.showShop = false;
+      } else if (index == 2) {
+        this.showProduct = !this.showProduct;
+        this.showBrand = false;
+        this.showService = false;
+        this.showShop = false;
+      } else if (index == 3) {
+        this.showService = !this.showService;
+        this.showBrand = false;
+        this.showProduct = false;
+        this.showShop = false;
+      } else if (index == 4) {
+        this.showShop = !this.showShop;
+        this.showBrand = false;
+        this.showProduct = false;
+        this.showService = false;
+      } else {
+        this.$router.push({
+          path: item.path
+        });
+      }
+    },
+    checkRouterLocal(path) {
+      //监听路由 根据路由下标高亮
+      // 查找当前路由下标高亮
+      this.selectNum = this.headList.findIndex(item => item.path === path);
+    },
+    toPart(item, index) {}
+  },
+  computed: {}
+};
+</script>
+
+<style lang="scss" scoped>
+.top-header {
+  height: 40px;
+  width: 84%;
+  margin: 30px 222px 0 134px;
+  z-index: 9999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  .left-logo {
+    float: left;
+    text-align: center;
+  }
+  ul {
+    height: 27px;
+  }
+  
+  .head-title {
+    float: right;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+.el-menu-demo {
+  background: rgba(255, 255, 255, 0);
+  border: 0;
+  color: #ffffff;
+}
+.navtitle {
+  color: #ffffff !important;
+  div {
+    i {
+      display: none;
+    }
+  }
+}
+.el-submenu__title {
+  color: #ffffff !important;
+}
+.navtitle {
+  // background: rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+.is-active {
+  background: rgba(255, 255, 255, 0);
+  color: #000000;
+}
+#navright {
+    height: 27px;
+  }
+</style>

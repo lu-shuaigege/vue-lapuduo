@@ -1,0 +1,113 @@
+<template>
+  <div class="all">
+    <div id="app"></div>
+    <div class="xiang">
+      <div class="title">
+        <p class="tp1">宝宝箱</p>
+        <p class="tp2">THE BAY BOX</p>
+      </div>
+      <div class="content">
+        <div class="condiv1">
+          <img src="../../assets/images/product/产品信息_08.jpg" alt class="conimg1">
+          <p class="lap1">啦普哆（挚爱款）</p>
+          <img src="../../assets/images/product/产品信息_02.jpg" alt>
+        </div>
+        <div class="condiv2">
+          <img src="../../assets/images/product/产品信息_10.jpg" alt class="conimg">
+          <p class="lap1">啦普哆（成长款）</p>
+          <img src="../../assets/images/product/产品信息_02.jpg" alt>
+        </div>
+        <div class="condiv2">
+          <img src="../../assets/images/product/产品信息_12.jpg" alt class="conimg">
+          <p class="lap1">啦普哆（挚金款）新生婴儿月子礼物</p>
+          <img src="../../assets/images/product/产品信息_02.jpg" alt>
+        </div>
+        <div class="condiv4">
+          <img src="../../assets/images/product/产品信息_17.jpg" alt class="conimg">
+          <p class="lap1">啦普哆（成长款）</p>
+          <img src="../../assets/images/product/产品信息_02.jpg" alt>
+        </div>
+        <div class="condiv2">
+          <img src="../../assets/images/product/产品信息_18.jpg" alt class="conimg">
+          <p class="lap1">啦普哆（挚金款）新生婴儿月子礼物</p>
+          <img src="../../assets/images/product/产品信息_02.jpg" alt>
+        </div>
+      </div>
+    </div>
+    <Footer></Footer>
+  </div>
+</template>
+<script>
+import Footer from "../../components/commons/footer/footer.vue";
+export default {
+  components: { Footer }
+};
+</script>
+<style lang="scss" scoped>
+.all {
+  margin: 0px;
+  padding: 0px;
+  width: 1920px;
+  //   overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  height: 650px;
+  background: url("../../assets/images/product/产品信息_01.jpg") no-repeat;
+  //   background-size:100% 100%;
+  margin: 0px;
+  padding: 1px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+.xiang {
+  width: 100%;
+  height: 1030px;
+  background: #ffffff;
+  .title {
+    width: 200px;
+    margin: 100px auto 70px auto;
+    text-align: center;
+    .tp1 {
+      font-size: 22px;
+      font-family: "微软雅黑";
+      font-weight: bold;
+    }
+    .tp2 {
+      font-size: 12px;
+      font-family: "微软雅黑";
+      font-weight: bold;
+      color: #b2b2b2;
+    }
+  }
+  .content {
+    .condiv1 {
+      width: 530px;
+      display: inline-block;
+      margin-left: 350px;
+      .conimg1 {
+        width: 100%;
+        height: 434;
+      }
+      .lap1 {
+        font-size: 16px;
+        font-family: "微软雅黑";
+        font-weight: bold;
+        margin: 30px 0 20px 0;
+      }
+    }
+    .condiv2 {
+      width: 300px;
+      height: 368px;
+      display: inline-block;
+      margin: 0 0 0 20px;
+      .conimg {
+        width: 100%;
+        height: 244px;
+      }
+    }
+  }
+}
+</style>

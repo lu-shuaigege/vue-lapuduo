@@ -1,0 +1,227 @@
+<template>
+  <div>
+    <!--tab导航栏-->
+    <div class="top-header">
+      <div class="left-logo">
+        <img src="../../../assets/images/index/logo.png">
+      </div>
+      <h3
+        v-if="wordColcor==true"
+        class="change-white"
+      >ENG.中文</h3>
+      <h3
+        v-if="wordColcor==false"
+        class="change-black"
+      >ENG.中文</h3>
+      <ul class="head-title">
+        <li
+          class="tab-item"
+          v-for="(item,index) in headList"
+          :key="index"
+        >
+          <a
+            v-if="wordColcor==true"
+            :class="selectNum == index ? 'active' : 'word-white'"
+            @click="selectTab(index, item)"
+          >{{item.text}}</a>
+          <a
+            v-if="wordColcor==false"
+            :class="selectNum == index ? 'active' : 'word-black'"
+            @click="selectTab(index, item)"
+          >{{item.text}}</a>
+          <div
+            class="lab-part"
+            v-if="index==1"
+            v-show="showBrand"
+          >
+            <ul>
+              <!-- to后面路径的#pinpaijianjie是要跳转的锚点的名字 -->
+              <router-link
+                to="/about#pinpaijianjie"
+                href="#pinpaijianjie"
+              >
+                <li>品牌简介</li>
+              </router-link>
+              <router-link
+                to="/about#pinpailishi"
+                href="#pinpailishi"
+              >
+                <li>品牌历史</li>
+              </router-link>
+              <router-link
+                to="/about#quanqiuyanfa"
+                href="#quanqiuyanfa"
+              >
+                <li>全球研发</li>
+              </router-link>
+            </ul>
+          </div>
+          <div
+            class="lab-part"
+            v-if="index==2"
+            v-show="showProduct"
+          >
+            <ul>
+              <router-link
+                to="/product#baobaoxiang"
+                href="#baobaoxiang"
+              >
+                <li>宝宝箱</li>
+              </router-link>
+              <router-link
+                to="/product#xixinweiyang"
+                href="#xixinweiyang"
+              >
+                <li>悉心喂养</li>
+              </router-link>
+              <router-link
+                to="/product#tiexinhuli"
+                href="#tiexinhuli"
+              >
+                <li>贴心护理</li>
+              </router-link>
+              <router-link
+                to="/product#nuanxinfushi"
+                href="#nuanxinfushi"
+              >
+                <li>暖心服饰</li>
+              </router-link>
+            </ul>
+          </div>
+          <div
+            class="lab-part"
+            v-if="index==3"
+            v-show="showService"
+          >
+            <ul>
+              <router-link
+                to="/service#shangpinfuwu"
+                href="#shangpinfuwu"
+              >
+                <li>商品服务</li>
+              </router-link>
+              <router-link
+                to="/service#kehuzhichi"
+                href="#kehuzhichi"
+              >
+                <li>客户支持</li>
+              </router-link>
+              <router-link
+                to="/service#qudaohezuo"
+                href="#qudaohezuo"
+              >
+                <li>渠道合作</li>
+              </router-link>
+            </ul>
+          </div>
+          <div
+            class="lab-part"
+            v-if="index==4"
+            v-show="showShop"
+          >
+            <ul>
+              <li>天猫旗舰店</li>
+              <li>京东旗舰店</li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import { removeToken } from "@/utils/cookie";
+import { mapGetters } from "vuex";
+
+export default {
+  data() {
+    return {
+      headList: [
+        //tab导航
+        { text: "首页", path: "/home" },
+        { text: "关于我们" },
+        { text: "产品信息" },
+        { text: "服务支持" },
+        { text: "官方商城" },
+        { text: "啦普哆俱乐部", path: "/club" },
+        { text: "联系我们", path: "/contactUs" }
+      ],
+      selectNum: 0, //选中的tab下标
+      showBrand: false, //控制遮罩层显隐的开关--关于我们
+      showProduct: false, //控制遮罩层显隐的开关--产品信息
+      showService: false, //控制遮罩层显隐的开关--服务支持
+      showShop: false, //控制遮罩层显隐的开关--官方商城
+      wordColcor: true //控制字体在页面显示黑白的
+    };
+  },
+  mounted() {},
+  watch: {
+    $route: {
+      handler(val) {
+        //根据路由判断 哪些网页头部字体是黑色或者白色
+        var linkName = [
+          "privacyTerms",
+          "socialTerms",
+          "websiteTerms",
+          "contactUs",
+          "babybox"
+        ];
+        if (linkName.indexOf(val.name) > -1) {
+          this.wordColcor = false;
+        } else {
+          this.wordColcor = true;
+        }
+        this.checkRouterLocal(val.path);
+        this.showBrand = false;
+        this.showProduct = false;
+        this.showService = false;
+        this.showShop = false;
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    selectTab(index, item) {
+      this.selectNum = index;
+      if (index == 1) {
+        this.showBrand = !this.showBrand;
+        this.showProduct = false;
+        this.showService = false;
+        this.showShop = false;
+      } else if (index == 2) {
+        this.showProduct = !this.showProduct;
+        this.showBrand = false;
+        this.showService = false;
+        this.showShop = false;
+      } else if (index == 3) {
+        this.showService = !this.showService;
+        this.showBrand = false;
+        this.showProduct = false;
+        this.showShop = false;
+      } else if (index == 4) {
+        this.showShop = !this.showShop;
+        this.showBrand = false;
+        this.showProduct = false;
+        this.showService = false;
+      } else {
+        this.$router.push({
+          path: item.path
+        });
+      }
+    },
+    checkRouterLocal(path) {
+      //监听路由 根据路由下标高亮
+      // 查找当前路由下标高亮
+      this.selectNum = this.headList.findIndex(item => item.path === path);
+    },
+    toPart(item, index) {}
+  },
+  computed: {}
+};
+</script>
+
+<style scoped lang="sass">
+  @import "./header.scss"
+</style>

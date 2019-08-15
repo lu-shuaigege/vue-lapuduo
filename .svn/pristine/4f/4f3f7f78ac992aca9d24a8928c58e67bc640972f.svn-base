@@ -1,0 +1,40 @@
+.top-header { height: 40px; width:84%;min-width: 960px; margin: 30px 9% 0 7%; z-index: 9999; position: absolute; top: 0; left: 0; display: flex; justify-content: space-between; align-items: center; flex-wrap:wrap; 
+    // .left-logo { float: left; line-height: 40px; }
+
+  .head-title {width: 80%; height: 40px; display: flex; justify-content: flex-end; align-items:center; font-size: 16px; cursor: pointer; 
+    .tab-item { padding:0 ; margin:0 20px; position: relative; 
+        .word-white{
+        color: #ffffff; }
+      .word-black{
+        color: #000000; }
+      .lab-part{
+        width: 100px; position: absolute; top: 30px; left: -20px; 
+        ul{
+          font:14px/26px ''; text-align: center; 
+          
+            li{
+              height: 40px; line-height: 40px; background:rgba(0, 0, 0, 0.4); padding: 0 4px; color: #ffffff; }
+        }
+      }
+    }
+  }
+  .change-white{
+    float: right; font-size: 16px; cursor: pointer; color: #ffffff; font-weight: 400; padding-left: 20px; }
+
+  .change-black{
+    float: right; font-weight: 400; font-size: 16px; cursor: pointer; color: #000000; padding-left: 20px; }
+
+
+  .active { color: #e8bc46
+  }
+
+}
+.el-menu-demo{
+
+  background: rgba(255, 255, 255, 0); border: 0; }
+.el-menu-demo li{
+  color: #000000; }
+
+
+
+

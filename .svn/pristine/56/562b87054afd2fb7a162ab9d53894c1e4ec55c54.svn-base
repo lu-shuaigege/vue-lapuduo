@@ -1,0 +1,30 @@
+import router from "./router/index";
+
+import store from "./store/index";
+
+import { getToken } from "./utils/cookie";
+
+const whiteList = ["/home","/socialTerms","/websiteTerms","/privacyTerms","/recruitment",'/jobDetails','/contactUs'];                //所有的顶部按钮都是属于白名单内   只有开放平台登录之后才会走 上面的有token之后的判断
+
+router.beforeEach((to, from, next) => {
+  const token = getToken();
+  if (token) {
+    // 没有用户信息时候    去获取用户数据
+    if (JSON.stringify(store.getters.userInfo) === "{}") {
+      store.dispatch("getUserInfo").then(res => {
+        store.dispatch("generateRouter", res.roles).then(res => {
+          router.addRoutes(res);
+          next({ ...to, replace: true }); // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+        });
+      });
+    } else {
+      next();
+    }
+  } else {
+    if (whiteList.indexOf(to.path) > -1) {
+      next();
+    } else {
+      next(`login?redirect=${to.path}`); //对于你来说这个地方就是 跳转开放平台的路由
+    }
+  }
+});

@@ -1,0 +1,5 @@
+'use strict'
+module.exports = {
+  NODE_ENV: '"production"',
+  API: "'https://app.54xy.com:443/'",   //这里放测试的地址
+}

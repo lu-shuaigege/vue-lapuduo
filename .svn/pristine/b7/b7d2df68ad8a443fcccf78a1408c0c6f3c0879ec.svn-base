@@ -1,0 +1,292 @@
+<template>
+  <div>
+    <div class="top-header"></div>
+    <div class="recruitment-part">
+      <div class="content">
+        <div class="word">
+          <div class="word-left">
+            <img src="../../assets/images/Contactus/lxwm_07.png" />
+            <span style="margin-left: 10px;color: #ffffff;">中国·上海</span>
+            <p class="word-line">TEL：400-838-6162</p>
+            <p class="word-line">FAX：021-31602168</p>
+            <p class="word-line">啦普哆（中国）有限公司</p>
+            <p class="word-line">中国·上海沪闵路3088号</p>
+            <p class="word-line">3088 Humin Rd，ShangHai</p>
+            <p class="word-line">啦普哆母婴用品（上海）有限公司</p>
+            <p class="word-line">Lapador Baby Care （ShangHai）Co，Ltd</p>
+            <p class="word-line">hr@Lapador.com.cn（人力资源）</p>
+            <p class="word-line">service@Lapador.com.cn（客户服务）</p>
+            <p class="word-line">lapador@Lapador.com.cn（渠道授权）</p>
+            <p class="word-line">business@Lapador.com.cn（商务合作）</p>
+          </div>
+        </div>
+        <div class="contact-us">
+          <div
+            class="contact-right"
+            v-show="isShow1"
+          >
+            <div class="input-name">
+              <input
+                class="input-type"
+                type="text"
+                placeholder="请输入您的姓名"
+                v-model="name"
+              />
+            </div>
+            <div class="input-name">
+              <input
+                class="input-type"
+                type="text"
+                placeholder="请输入您的公司名称"
+                v-model="companyName"
+              />
+            </div>
+            <div class="input-name">
+              <input
+                class="input-type"
+                type="text"
+                placeholder="请输入您的邮箱"
+                v-model="mail"
+              />
+            </div>
+            <div class="input-name">
+              <input
+                class="input-type"
+                type="text"
+                placeholder="请输入您的电话"
+                v-model="phone"
+              />
+            </div>
+
+            <el-checkbox-group v-model="chooseProduct">
+              <el-checkbox
+                v-for="i in cities"
+                :label="i.id"
+                :key="i.id"
+                class="xuan"
+              >{{i.name}}</el-checkbox>
+            </el-checkbox-group>
+
+            <div
+              class="button-us"
+              @click="lian"
+            >
+              联系我们
+            </div>
+          </div>
+
+          <div
+            class="cheng"
+            ref="ok"
+            v-show="isShow2"
+          >
+            <img
+              src="../../assets/images/service/1.png"
+              alt=""
+            >
+            <p class="chengp1">发送成功！</p>
+            <p
+              class="chengp2"
+              @click="elsend"
+            >再次发送信息</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <Footer></Footer>
+  </div>
+</template>
+
+<script>
+import Footer from "@/components/commons/footer/footer.vue";
+
+export default {
+  data() {
+    return {
+      chooseProduct: "",
+      companyName: "",
+      mail: "",
+      name: "",
+      phone: "",
+
+      isShow1: true,
+      isShow2: false,
+
+      chooseProduct: [],
+      cities: [
+        { id: "1", name: "公司产品" },
+        { id: "2", name: "宝宝箱" },
+        { id: "3", name: "商务合作" }
+      ]
+    };
+  },
+  methods: {
+    lian: function() {
+      if (
+        this.chooseProduct != "" &&
+        this.companyName != "" &&
+        this.mail != "" &&
+        this.name != "" &&
+        this.phone != ""
+      ) {
+        this.$api.post(
+          "api_addContact.do",
+          {
+            chooseProduct: this.chooseProduct,
+            companyName: this.companyName,
+            mail: this.mail,
+            name: this.name,
+            phone: this.phone
+          },
+          response => {
+            if (response.status >= 200 && response.status < 300) {
+              console.log(response.data); //请求成功，response为成功信息参数
+            } else {
+              console.log(response.message); //请求失败，response为失败信息
+            }
+          }
+        );
+      } else {
+        alert("请把信息填写完整！");
+      }
+
+      this.isShow1 = false;
+      this.isShow2 = true;
+    },
+    elsend: function() {
+      this.chooseProduct = "";
+      this.companyName = "";
+      this.mail = "";
+      this.name = "";
+      this.phone = "";
+
+      this.isShow1 = true;
+      this.isShow2 = false;
+    }
+  },
+  components: {
+    Footer
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.top-header {
+  height: 100px;
+  width: 100%;
+}
+
+.input-type::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.recruitment-part {
+  background-image: url("../../assets/images/Contactus/background.jpg");
+  width: 100%;
+  height: 700px;
+  min-height: 700px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .content {
+    display: flex;
+    flex-direction: row;
+    .word {
+      flex: 1;
+      height: 700px;
+      .word-left {
+        margin: 133px 0 0 360px;
+        .word-line {
+          color: #ffffff;
+          font: 16px/30px "";
+        }
+      }
+    }
+    .contact-us {
+      flex: 1;
+      height: 700px;
+      background: #6a6a69;
+      opacity: 0.8;
+      position: relative;
+      .contact-right {
+        width: 358px;
+        height: 487px;
+        margin: 32px 0 0 110px;
+        display: inline-block;
+        .input-name {
+          width: 320px;
+          height: 40px;
+          border-bottom: 1px solid #ffffff;
+          margin-top: 40px;
+          .input-type {
+            width: 320px;
+            height: 40px;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background: #6a6a69;
+            opacity: 0.8;
+          }
+        }
+      }
+
+      .cheng {
+        width: 358px;
+        height: 487px;
+        margin: 75px 0 0 110px;
+        background: #6a6a69;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 9;
+        text-align: center;
+        font-size: 16px;
+        //   display: none;
+        .chengp1 {
+          margin: 20px auto;
+        }
+        .chengp2 {
+          width: 360px;
+          height: 60px;
+          color: #ffffff;
+          background: #caac48;
+          line-height: 60px;
+          display: inline-block;
+          cursor: pointer;
+        }
+      }
+      .select-part {
+        display: flex;
+        flex-direction: column;
+        .tab {
+          color: #ffffff;
+          margin-top: 20px;
+          font-size: 18px;
+        }
+      }
+      .button-us {
+        width: 358px;
+        height: 60px;
+        background: #caac48;
+        // font: 18px/60px "";
+        font: 18px;
+        text-align: center;
+        line-height: 60px;
+        color: #ffffff;
+        margin-top: 20px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.xuan {
+  display: block !important;
+  color: #ffffff;
+  margin-top: 20px;
+  font-size: 18px;
+}
+</style>
+
+

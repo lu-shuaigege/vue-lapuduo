@@ -1,0 +1,71 @@
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from '@/router'
+import 'es6-promise/auto'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+import $ from 'jquery'
+// import axios from 'axios'
+
+import Api from './api/index.js';
+Vue.prototype.$api = Api;
+import qs from 'qs'
+Vue.prototype.$qs = qs
+
+
+import VueAMap from 'vue-amap';
+import store from './store/index'
+
+import './permission'
+
+import less from 'less'
+
+
+Vue.config.productionTip = false
+// Vue.prototype.$ajax = axios
+
+
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI)
+Vue.use(VueAMap);
+
+
+
+import '../static/css/style.scss'
+import './assets/icon/iconfont.css';
+
+//px转rem
+// import 'lib-flexible/flexible'
+
+
+
+VueAMap.initAMapApiLoader({
+    key: 'a122f06208738fe410c2f34f86bf365c',
+    plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
+    // 默认高德 sdk 版本为 1.4.4
+    v: '1.4.4'
+});
+
+/* eslint-disable no-new */
+new Vue({
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    template: '<App/>',
+    render: (createElement) => createElement(App)
+})
+
+// Vue.directive('anchor', {
+//   inserted: function (el, binding) {
+//     el.onclick = function () {
+//       document.documentElement.scrollTop = $('#anchor-' + binding.value).offset().top
+//     }
+//   }
+// })
+
+

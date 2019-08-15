@@ -1,0 +1,223 @@
+<template>
+  <div class="all">
+    <div id="app"></div>
+    <div class="content">
+
+      <div
+        class="list"
+        v-for="item in list"
+        :key="item.id"
+      >
+        <!-- <router-link to="/newsdetail"> -->
+          <div class="left">
+            <p class="p1">{{item.name}}</p>
+            <p class="p2">{{item.content}}</p>
+            <p class="p3">
+              <span class="sp1">{{item.see}}</span>
+              <span class="sp1">{{item.look}}</span>
+              <span class="sp1">{{item.time}}</span>
+            </p>
+          </div>
+          <div class="right">
+            <img
+              :src="item.pic"
+              alt
+              class="img1"
+            >
+          </div>
+        <!-- </router-link> -->
+      </div>
+
+    </div>
+    <div class="yema">
+      <!-- <v-pagination :total="total" :current-page="current" @pagechange="pagechange"></v-pagination> -->
+      <div id="demo7"></div>
+    </div>
+    <Footer></Footer>
+  </div>
+</template>
+<script>
+import Footer from "../../components/commons/footer/footer.vue";
+import pagination from "@/components/commons/pagination/pagination.vue";
+export default {
+  data() {
+    return {
+      total: 150, // 记录总条数
+      display: 10, // 每页显示条数
+      current: 1, // 当前的页数
+      list: [
+        {
+          id: "1",
+          pic: require("../../assets/images/service/服务支持_04.jpg"),
+          name: "育婴课堂|心痛！刚过百天的婴儿和父母同睡一床早上却没了呼吸...",
+          content:
+            "Lapador®产品的设计从有效的保护心理、身体及媒体的角度出发，产品的实验场地符合欧盟最新、最严格的测试！",
+          see: "阅读52",
+          look: "好看2",
+          time: "1周前"
+        },
+        {
+          id: "2",
+          pic: require("../../assets/images/service/服务支持_06.jpg"),
+          name: "免费培训课程",
+          content:
+            "Lapador®在移动的环境下对母婴的生活环境进行仔细分析**同时在全球配有“内部员工和客户”产品体验中心，提供不同产品的产品体验！",
+          see: "阅读52",
+          look: "好看2",
+          time: "1周前"
+        },
+        {
+          id: "3",
+          pic: require("../../assets/images/service/服务支持_08.jpg"),
+          name: "产品随心定制",
+          content:
+            "Lapador®一支训练有素的服务团队为客户实现个性化特殊定制；除了安全舒适的产品外，漂亮的个性化服务也是我们一直在努力的！"
+        },
+        {
+          id: "4",
+          pic: require("../../assets/images/service/服务支持_14.jpg"),
+          name: "高端物流服务",
+          content:
+            "Lapador®限时物流包裹交付和个性化的信封，全部拥有公司完整的知识产权！"
+        },
+        {
+          id: "5",
+          pic: require("../../assets/images/service/服务支持_17.jpg"),
+          name: "全球质量保证",
+          content:
+            "Lapador®宝宝箱采用芬兰及欧洲各地食品级原生纤维原料确保无杂质及任何污染；安全从细节出发，每一个小的创新，都是对宝宝的全方位呵护！"
+        },
+        {
+          id: "6",
+          pic: require("../../assets/images/service/服务支持_19.jpg"),
+          name: "无理由退换服务",
+          content:
+            "Lapador®所提供的产品以客户的满意为第一标准，使用我们产品过程中有任何的不满意，我们为您做到免费置换，全球同步不受时间、地域限制！"
+        }
+        // { id: "1", pic: require("../../assets/images/首页-1.jpg") },
+        // { id: "2", pic: require("../../assets/images/首页-1.jpg") },
+        // { id: "3", pic: require("../../assets/images/首页-1.jpg") }
+      ]
+    };
+  },
+  components: {
+    Footer,
+    "v-pagination": pagination
+  },
+  mounted() {
+    window.layui.use(["laypage", "layer"], function() {
+      var laypage = layui.laypage,
+        layer = layui.layer;
+      //完整功能//调用分页
+      laypage.render({
+        elem: "demo7",
+        count: 100,
+        // count: data.length,
+        layout: ["page", "prev", "next"],
+        theme: "#FFB800",
+        jump: function(obj) {
+          //模拟渲染
+          console.log(obj);
+          //   document.getElementById("biuuu_city_list").innerHTML = (function() {
+          //     var arr = [],
+          //       thisData = data
+          //         .concat()
+          //         .splice(obj.curr * obj.limit - obj.limit, obj.limit);
+          //     layui.each(thisData, function(index, item) {
+          //       arr.push("<li>" + item + "</li>");
+          //     });
+          //     return arr.join("");
+          //   })();
+        }
+      });
+    });
+  },
+  methods: {
+    pagechange: function(currentPage) {
+      console.log(currentPage);
+      // ajax请求, 向后台发送 currentPage, 来获取对应的数据
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.all {
+  margin: 0px;
+  padding: 0px;
+  width: 1920px;
+  //   overflow: hidden;
+}
+
+#app {
+  width: 100%;
+  height: 650px;
+  background: url("../../assets/images/club/啦普哆俱乐部_01.jpg") no-repeat;
+  //   background-size:100% 100%;
+  margin: 0px;
+  padding: 1px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+.content {
+  width: 1176px;
+  margin: 0 auto;
+  .list {
+    width: 1176px;
+    height: 346px;
+    margin: 50px 0;
+    border-bottom: 1px solid #999999;
+
+    .left {
+      float: left;
+      width: 750px;
+      height: 275px;
+      position: relative;
+      .p1 {
+        font-size: 30px;
+        font-family: "微软雅黑";
+        font-weight: bold;
+        color: black;
+        max-height: 80px;
+        overflow: hidden;
+      }
+      .p2 {
+        margin-top: 10px;
+        font-size: 16px;
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        color: #000000;
+        line-height: 30px;
+        height: 100px;
+        overflow: hidden;
+      }
+      .p3 {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        font-family: "Helvetica Neue", Helvetica, "PingFang SC",
+          "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        span {
+          display: inline-block;
+          min-width: 80px;
+          height: 20px;
+        }
+      }
+    }
+    .right {
+      float: right;
+      width: 344px;
+      height: 275px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}
+.yema {
+  height: 65px;
+  text-align: center;
+  margin-bottom: 50px;
+}
+</style>

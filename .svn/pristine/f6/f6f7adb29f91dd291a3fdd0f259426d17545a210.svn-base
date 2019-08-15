@@ -1,0 +1,67 @@
+<template>
+  <div>
+    <!--支撑头部空白部分-->
+    <div class="top-header"></div>
+    <div class="content">
+      <h3>社交使用条款</h3>
+      <img src="../../assets/images/Socialcontact/社交使用条款_03.jpg"/>
+      <div class="text">
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+        <p>条款使用说明</p>
+
+      </div>
+    </div>
+    <Footer></Footer>
+  </div>
+</template>
+
+<script>
+  import Footer from "@/components/commons/footer/footer.vue";
+
+  export default {
+    data(){
+      return{
+
+      }
+    },
+    components: {
+      Footer
+    }
+  }
+</script>
+
+<style lang="scss"scoped>
+  .top-header{
+    height: 100px;
+    width: 100%;
+  }
+
+  .content{
+    width: 1200px;
+    margin: 0 auto;
+    h3{
+      font: 20px/50px '';
+      font-weight: 600;
+    }
+  }
+
+
+
+</style>
+
+

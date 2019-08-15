@@ -1,0 +1,48 @@
+.top-header {
+  height: 40px;
+  width:84%;
+  margin: 30px 222px 0 134px;
+  z-index: 9999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  .left-logo {
+    float: left;
+    text-align: center;
+  }
+
+  ul {
+    float: right;
+    height: 40px;
+    font-size: 16px;
+
+    cursor: pointer;
+    li {
+      float: left;
+      padding:0 20px;
+      a{
+        color: #ffffff;
+      }
+    }
+  }
+  .change-text{
+    float: right;
+    font-size: 16px;
+    cursor: pointer;
+    color: #ffffff;
+    padding-left: 20px;
+
+
+  }
+  .active {
+    color: #e8bc46
+  }
+
+}
+
+.mask-tab{
+  width: 100px;
+  height: 100px;
+  background: #5daf34;
+}
+
