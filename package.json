@@ -12,7 +12,7 @@
     "build-aliyun": "node build/build.js aliyun"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "cssnano": "^4.1.10",
     "element-ui": "^2.5.4",
     "es6-promise": "^4.2.6",
